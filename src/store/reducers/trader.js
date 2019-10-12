@@ -1,12 +1,13 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updateObject} from "../../shared/utility";
-import { rentIncome } from '../../shared/utility/prices'
+import { updateObject } from "../../shared/utility";
+import { getIncome } from '../../shared/utility/prices'
 
 const initialState = {
     flats: [],
     fortune: 100000,
     age: 35,
-    period: 1
+    period: 0,
+    income: 0
 }
 
 const addUserFlat = (state, action) => {
@@ -19,7 +20,8 @@ const addUserFlat = (state, action) => {
 const sellFlat = (state, action) => {
     const Fl = state.flats.filter( flat => flat.id !== +action.flatId ),
         fortune = state.fortune + action.price;
-    return updateObject( state, { flats: Fl, fortune } )
+    const income = getIncome(Fl);
+    return updateObject( state, { flats: Fl, fortune, income } )
 }
 
 const rentFlat = (state, action) => {
@@ -29,20 +31,14 @@ const rentFlat = (state, action) => {
         }
         return flat;
     } )
-    return updateObject( state, { flats: Fl } )
+    const income = getIncome(Fl)
+    return updateObject( state, { flats: Fl, income } )
 }
 
 const changePeriod = (state, action) => {
     const period = state.period + action.period,
         age = state.age + action.period/12;
-
-    let income = 0;
-    for( let i=0; i<state.flats.length; i++ ){
-        if(state.flats[i].rented){
-            income += rentIncome(state.flats[i])
-        }
-    }
-    const fortune = income * action.period + state.fortune
+    const fortune = state.income * action.period + state.fortune
     return updateObject( state, { period, age, fortune } )
 }
 
@@ -58,7 +54,9 @@ const upgradeFlat = (state, action) => {
         } ),
             fortune = state.fortune - action.price;
 
-    return updateObject( state, { flats: Fl, fortune } )
+        const income = getIncome(Fl);
+
+    return updateObject( state, { flats: Fl, fortune, income } )
 }
 
 const reducer = ( state = initialState, action ) => {

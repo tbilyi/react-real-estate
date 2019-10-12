@@ -14,16 +14,18 @@ function App() {
   return (
     <div className="App">
         <Navigation></Navigation>
-        <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/my-flats" exact component={MyFlats} />
-            <Route path="/market/flat/:id" component={MarketFlatDetails} />
-            <Route path="/my-flats/flat/:id" component={TraderPropertyDetails} />
-            <Suspense fallback={<p>Loading...</p>}>
-                <Route path="/market" component={MarketFlats} />
-            </Suspense>
-            <Redirect to="/my-flats" />
-        </Switch>
+        <div className="container-fluid">
+            <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/my-flats" exact component={MyFlats} />
+                <Route path="/market/flat/:id" component={MarketFlatDetails} />
+                <Route path="/my-flats/flat/:id" component={TraderPropertyDetails} />
+                <Suspense fallback={<p>Loading...</p>}>
+                    <Route path="/market" component={MarketFlats} />
+                </Suspense>
+                <Redirect to="/my-flats" />
+            </Switch>
+        </div>
     </div>
   );
 }

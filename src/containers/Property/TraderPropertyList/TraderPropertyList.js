@@ -7,19 +7,41 @@ const TraderPropertyList = () => {
     const flats = useSelector(state => state.trader.flats)
 
     return (
-        <div className="row">{ flats.map( (flat)=>(
-            <TraderPropertyItem
-                key={flat.id}
-                id={flat.id}
-                price={flat.price}
-                squre={flat.squre}
-                condition={flat.condition}
-                img={flat.img}
-                location={flat.location}
-                rented={flat.rented}
-            >
-            </TraderPropertyItem>
-        )) }</div>
+        <div>
+            <div className="card">
+                <div className="card-header">
+                    Flats
+                </div>
+                <div className="card-body">
+                    <table className="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Adress</th>
+                            <th scope="col">Condition</th>
+                            <th scope="col">Neighbourhood</th>
+                            <th scope="col">Rent</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        { flats.map( (flat)=>(
+                            <TraderPropertyItem
+                                key={flat.id}
+                                id={flat.id}
+                                price={flat.price}
+                                squre={flat.square}
+                                condition={flat.condition}
+                                district={flat.district}
+                                img={flat.img}
+                                location={flat.location}
+                                rented={flat.rented}
+                            >
+                            </TraderPropertyItem>
+                        )) }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     )
 };
 

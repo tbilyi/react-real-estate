@@ -1,32 +1,25 @@
 import * as actionTypes from '../actions/actionTypes';
-import genFlats from "../../shared/setFlats";
+import GenFlats from "../../shared/setFlats";
 import { updateObject } from '../../shared/utility/index';
 
-const setFlats = (state) => {
-    return updateObject(state, { flats: genFlats() } )
+const initialState = {
+    flats: []
 }
 
-const resetFlats = (state) => {
-    return updateObject( state, { flats: []} )
-}
-
-const getFlat = (state, action) => {
-    let selectedFlat = state.flats.filter( flat => flat.id === +action.flatId )
-    if(selectedFlat.length) {
-        selectedFlat = selectedFlat[0]
-    }
-    return updateObject( state, {selectedFlat} )
-}
+const setFlats = state => updateObject(state, { flats: GenFlats.setNewFlats() } )
+const resetFlats = state => updateObject( state, { flats: []} )
 
 const removeFlat = (state, action) => {
     const newFlatsArr = state.flats.filter( flat => flat.id !== +action.flatId )
     return updateObject( state, { flats: newFlatsArr} )
 }
 
-
-
-const initialState = {
-    flats: []
+const getFlat = (state, action) => {
+    let selectedFlat = state.flats.filter( flat => flat.id === +action.flatId )
+    if(selectedFlat.length) {
+        selectedFlat = selectedFlat[0];
+    }
+    return updateObject( state, {selectedFlat} )
 }
 
 const reducer = ( state = initialState, action ) => {

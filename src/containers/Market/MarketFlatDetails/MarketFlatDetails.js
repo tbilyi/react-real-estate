@@ -17,6 +17,8 @@ const MarketFlatDetails = props => {
         }
     }
 
+
+
     const flatId = props.match.params.id,
         dispatch = useDispatch();
 
@@ -52,7 +54,7 @@ const MarketFlatDetails = props => {
 
     let luxury = null
     if( flatsNumber > 1 ) {
-        totalPrice *= flatsNumber;
+        totalPrice *= flatsNumber * flatsNumber/3;
         luxury = <React.Fragment>
             <p>You are rich! You have got { flatsNumber } flats</p>
             <p>Extra tax for luxury!$$$</p></React.Fragment>
@@ -68,7 +70,11 @@ const MarketFlatDetails = props => {
             <div className="col-sm-6">
                 <div className="card border-success">
                     <div className="card-body text-success text-center">
-                        <img className={classes.img} alt="" src={ require(`../../../assets/images/flats/${flat.img}`) } />
+                            <img className={classes.img + " img-thumbnail"} alt="" src={ require(`../../../assets/images/flats/${flat.img}`) } />
+
+
+                            <img className={classes.img + " img-thumbnail"} alt="" src={ require(`../../../assets/images/streets/${flat.strImg}`) } />
+
                     </div>
                 </div>
             </div>
@@ -78,7 +84,7 @@ const MarketFlatDetails = props => {
                 <p>Price: { GetPriceWithSpaces(flat.price) } $</p>
                 <p>Rent per month:  { GetPriceWithSpaces(rentMoney) } $ </p>
                 <p>Square: { flat.square }</p>
-                <p>Taxes: { purchaseTax(flat.price).tax }</p>
+                <p>Taxes: { taxPrice.tax }</p>
                 <p>Price + taxes: { GetPriceWithSpaces(taxPrice) } $</p>
                 {luxury}
                 <p>Total price: { GetPriceWithSpaces(totalPrice) }$</p>

@@ -21,6 +21,7 @@ const MarketFlatsList = () => {
                 square={flat.square}
                 condition={flat.condition}
                 img={flat.img}
+                strImg={flat.strImg}
                 location={flat.location}
                 rented={flat.rented}
             >
