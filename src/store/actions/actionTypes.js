@@ -8,4 +8,3 @@ export const RENT_FLAT = 'RENT_FLAT';
 export const UPGRADE_FLAT = 'UPGRADE_FLAT';
 export const CHANGE_PERIOD = 'CHANGE_PERIOD';
 export const RESET_FLATS = 'RESET_FLATS';
-

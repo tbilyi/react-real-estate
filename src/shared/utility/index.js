@@ -1,7 +1,7 @@
 export {
-    rentIncome,
-    GetPriceWithSpaces
+  rentIncome,
+  GetPriceWithSpaces,
 } from './prices';
 export {
-    updateObject
+  updateObject,
 } from './reducerUtilities';

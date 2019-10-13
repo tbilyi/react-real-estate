@@ -1,11 +1,11 @@
 export {
-    setFlats,
-    rentIncome,
-    buyFlat,
-    sellFlat,
-    rentFlat,
-    upgradeFlat
+  setFlats,
+  rentIncome,
+  buyFlat,
+  sellFlat,
+  rentFlat,
+  upgradeFlat,
 } from './flats';
 export {
-    endPeriod
+  endPeriod,
 } from './general';
