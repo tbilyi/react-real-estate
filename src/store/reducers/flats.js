@@ -9,13 +9,13 @@ const initialState = {
 const setFlats = (state) => updateObject(state, { flats: GenFlats.setNewFlats() });
 const resetFlats = (state) => updateObject(state, { flats: [] });
 
-const removeFlat = (state, action) => {
-  const newFlatsArr = state.flats.filter((flat) => flat.id !== +action.flatId);
+const removeFlat = (state, { flatId }) => {
+  const newFlatsArr = state.flats.filter((flat) => flat.id !== +flatId);
   return updateObject(state, { flats: newFlatsArr });
 };
 
-const getFlat = (state, action) => {
-  let selectedFlat = state.flats.filter((flat) => flat.id === +action.flatId);
+const getFlat = (state, { flatId }) => {
+  let selectedFlat = state.flats.filter((flat) => flat.id === +flatId);
   if (selectedFlat.length) {
     [selectedFlat] = selectedFlat;
   }

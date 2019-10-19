@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { GetPriceWithSpaces } from '../../shared/utility/prices';
 
@@ -15,13 +16,14 @@ const MarketFlatItem = ({
   const streetsImages = require.context('../../assets/images/streets', true);
   const img = flatsImages(`./${flatImg}`);
   const str = streetsImages(`./${strImg}`);
+  const metersToFeet = useSelector((state) => state.todos.metersToFeet)
   return (
     <div className="col-sm-6 col-md-4 mr-item">
       <div className="card border-success">
         <div className="card-header text-white bg-success text-center">
           {location}
           <div className="font-italic">
-            {`${square} m&sup2;`}
+            {`${square}m² (${metersToFeet(square)}ft²)`}
           </div>
         </div>
         <div className="card-body text-success text-center">
@@ -33,7 +35,7 @@ const MarketFlatItem = ({
           </NavLink>
         </div>
         <div className="card-footer text-muted text-center font-weight-bold">
-          {`${GetPriceWithSpaces(price)}$ (${GetPriceWithSpaces(price / square)}$ for m&sup2;)`}
+          {`${GetPriceWithSpaces(price)}$ (${GetPriceWithSpaces(price / square)}$ for m²)`}
         </div>
       </div>
     </div>

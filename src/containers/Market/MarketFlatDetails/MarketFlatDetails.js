@@ -13,6 +13,8 @@ const MarketFlatDetails = ({ match, history }) => {
   const flats = useSelector((state) => state.flats.flats);
   const flatsNumber = useSelector((state) => state.trader.flats.length);
   const fortune = useSelector((state) => state.trader.fortune);
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.userId);
   const flatId = match.params.id;
   const [flat] = flats.filter((flatItem) => flatItem.id === +flatId);
 
@@ -34,10 +36,15 @@ const MarketFlatDetails = ({ match, history }) => {
     return { taxPrice: Math.floor(price * 1.3), tax: '30%' };
   };
 
-  const { taxPrice, tax } = purchaseTax(flat.price);
-  let totalPrice = taxPrice;
+  let { taxPrice, tax } = purchaseTax(flat.price);
+  let totalPrice = flat.price;
 
-  if (flatsNumber > 1) {
+  if (!flatsNumber) {
+    tax = 0;
+    taxPrice = 0;
+  } else if (flatsNumber === 1) {
+    totalPrice = taxPrice;
+  } else if (flatsNumber > 1) {
     totalPrice *= (flatsNumber * flatsNumber) / 3;
     luxury = (
       <>
@@ -47,9 +54,10 @@ const MarketFlatDetails = ({ match, history }) => {
     );
   }
 
+  const notRegistered = () => history.push('/');
   const buyFlat = () => {
     history.push('/my-flats');
-    dispatch(actions.buyFlat(flat, totalPrice));
+    dispatch(actions.buyFlat(flat, totalPrice, token, userId));
   };
 
   if (fortune - totalPrice <= 0) {
@@ -69,15 +77,32 @@ const MarketFlatDetails = ({ match, history }) => {
       <div className="col-sm-6">
         <h1 className="text-center">Flat details</h1>
         <p>{`Location: ${flat.location}`}</p>
-        <p>{`Price: ${GetPriceWithSpaces(flat.price)} $`}</p>
-        <p>{`Rent per month: ${GetPriceWithSpaces(rentMoney)} $`}</p>
-        <p>{`Square: ${flat.square}`}</p>
+        <p>{`Price: ${GetPriceWithSpaces(flat.price)}$`}</p>
+        <p>{`Rent per month: ${GetPriceWithSpaces(rentMoney)}$`}</p>
+        <p>{`Square: ${flat.square}m²`}</p>
         <p>{`Taxes: ${tax}`}</p>
-        <p>{`Price + taxes: ${GetPriceWithSpaces(taxPrice)} $`}</p>
+        { flatsNumber ? <p>{`Price + taxes: ${GetPriceWithSpaces(taxPrice)}$`}</p> : null }
         {luxury}
         <p>{`Total price: ${GetPriceWithSpaces(totalPrice)}$`}</p>
-        <button type="button" className="btn btn-success" disabled={!balance} onClick={buyFlat}>Buy</button>
-        { !balance ? <p>Insufficient Funds</p> : null }
+        { token ? (
+          <button
+            type="button"
+            className="btn btn-success"
+            disabled={!balance || !token}
+            onClick={buyFlat}
+          >
+            Buy
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={notRegistered}
+          >
+            Please register to purchase
+          </button>
+        )}
+        { !balance ? <p>Insufficient Funds for this flat</p> : null }
       </div>
     </div>
   );

@@ -4,55 +4,58 @@ import { getIncome } from '../../shared/utility/prices';
 
 const initialState = {
   flats: [],
-  fortune: 100000,
+  fortune: 150000,
   age: 35,
   period: 0,
   income: 0,
 };
 
-const addUserFlat = (state, action) => {
+const addUserFlat = (state, { price, flat }) => {
   const Fl = [...state.flats];
-  const ft = state.fortune - action.price;
-  Fl.push(action.flat);
+  const ft = state.fortune - price;
+  Fl.push(flat);
   return updateObject(state, { flats: Fl, fortune: ft });
 };
 
-const sellFlat = (state, action) => {
-  const Fl = state.flats.filter((flat) => flat.id !== +action.flatId);
-  const fortune = state.fortune + action.price;
+const sellFlat = (state, { flatId, price }) => {
+  const Fl = state.flats.filter((flat) => flat.id !== +flatId);
+  const fortune = state.fortune + price;
   const income = getIncome(Fl);
   return updateObject(state, { flats: Fl, fortune, income });
 };
 
-const rentFlat = (state, action) => {
+const rentFlat = (state, { flatId }) => {
   const Fl = state.flats.map((flat) => {
-    if (flat.id === +action.flatId) {
-      flat.rented = true;
-    }
+    if (flat.id === +flatId) flat.rented = true;
     return flat;
   });
   const income = getIncome(Fl);
   return updateObject(state, { flats: Fl, income });
 };
 
-const changePeriod = (state, action) => {
-  const period = state.period + action.period;
-  const age = state.age + action.period / 12;
-  const fortune = state.income * action.period + state.fortune;
-  return updateObject(state, { period, age, fortune });
+const changePeriod = (state, { period }) => {
+  const newPeriod = state.period + period;
+  const age = state.age + period / 365;
+  const fortune = state.income * period + state.fortune;
+  return updateObject(state, { period: newPeriod, age, fortune });
 };
 
+const getTraderData = (state, {
+  flats, fortune, age, period, income,
+}) => updateObject(state, {
+  flats, fortune, age, period, income,
+});
 
-const upgradeFlat = (state, action) => {
+const upgradeFlat = (state, { flatId, price }) => {
   const Fl = state.flats.map((flat) => {
-    if (flat.id === +action.flatId) {
+    if (flat.id === +flatId) {
       flat.img = flat.img.replace(`c${flat.condition}`, `c${flat.condition + 1}`);
       flat.condition += 1;
       flat.price += flat.price * 0.4;
     }
     return flat;
   });
-  const fortune = state.fortune - action.price;
+  const fortune = state.fortune - price;
   const income = getIncome(Fl);
   return updateObject(state, { flats: Fl, fortune, income });
 };
@@ -64,6 +67,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.RENT_FLAT: return rentFlat(state, action);
     case actionTypes.UPGRADE_FLAT: return upgradeFlat(state, action);
     case actionTypes.CHANGE_PERIOD: return changePeriod(state, action);
+    case actionTypes.GET_TRADER_DATA: return getTraderData(state, action.traderData);
     default:
       return state;
   }

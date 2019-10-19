@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { GetPriceWithSpaces } from '../../shared/utility';
-import * as actions from '../../store/actions';
-import classes from './Navigation.module.css';
 
 export default function SimpleTabs() {
   const [toggleButtonClass, setToggleButtonClass] = useState(['collapse', 'navbar-collapse']);
@@ -17,8 +15,6 @@ export default function SimpleTabs() {
       setToggleButtonClass([...toggleButtonClass].splice(0, 2));
     }
   };
-  const dispatch = useDispatch();
-  const endPeriod = (period) => dispatch(actions.endPeriod(period));
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -71,40 +67,7 @@ export default function SimpleTabs() {
             </span>
           </li>
           <li className="nav-item">
-            <span className="nav-link">{`currency: ${GetPriceWithSpaces(trader.fortune)}`}</span>
-          </li>
-          <li className="nav-item">
-            <span className="nav-link">{`work: ${trader.period} months`}</span>
-          </li>
-          <li className="nav-item">
-            <span className="nav-link">skip:</span>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className={`${classes.navButton} nav-link`}
-              onClick={() => endPeriod(1)}
-            >
-              month
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className={`${classes.navButton} nav-link`}
-              onClick={() => endPeriod(12)}
-            >
-              year
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              type="button"
-              className={`${classes.navButton} nav-link`}
-              onClick={() => endPeriod(120)}
-            >
-              decade
-            </button>
+            <span className="nav-link">{`currency: ${GetPriceWithSpaces(trader.fortune)}$`}</span>
           </li>
         </ul>
       </div>

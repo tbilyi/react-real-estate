@@ -19,6 +19,7 @@ const initialState = {
       default: return '';
     }
   },
+  metersToFeet: (m) => Math.floor(m * 10.764),
 };
 
 const todos = (state = initialState) => state;

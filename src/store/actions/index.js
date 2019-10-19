@@ -8,4 +8,6 @@ export {
 } from './flats';
 export {
   endPeriod,
+  signUp,
+  saveData,
 } from './general';

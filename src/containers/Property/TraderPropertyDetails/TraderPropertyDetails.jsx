@@ -57,14 +57,14 @@ const TraderPropertyDetails = ({ match, history }) => {
       </div>
       <div className="col-sm-6">
         <h1 className="text-center">Flat details</h1>
-        {flat.rented ? <h3>Flat is being rented!</h3> : null}
+        { flat.rented ? <h3>Flat is being rented!</h3> : null}
         <p>{`Location: ${flat.location}`}</p>
-        <p>{`Price: ${GetPriceWithSpaces(flat.price)} $`}</p>
+        <p>{`Price: ${GetPriceWithSpaces(flat.price)}$`}</p>
         <p>{`Rent per month: ${GetPriceWithSpaces(rentMoney)}$`}</p>
-        {flat.condition < 4 ? (
+        { flat.condition < 4 ? (
           <p>{`Upgrade price: ${GetPriceWithSpaces(upgradePrice)}$`}</p>
         ) : null}
-        <p>{`Square: ${flat.square}`}</p>
+        <p>{`Square: ${flat.square}m²`}</p>
         <p>{`Taxes: ${sellTax(flat.price).tax}`}</p>
         <p>{`Price - taxes: ${GetPriceWithSpaces(taxPrice)}$`}</p>
         <div>
