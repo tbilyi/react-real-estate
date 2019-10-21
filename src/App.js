@@ -5,6 +5,7 @@ import Navigation from './components/Navigation/Navigation';
 import MyFlats from './containers/Property/TraderPropertyList/TraderPropertyList';
 import MarketFlatDetails from './containers/Market/MarketFlatDetails/MarketFlatDetails';
 import TraderPropertyDetails from './containers/Property/TraderPropertyDetails/TraderPropertyDetails';
+import Account from "./containers/Account/Account";
 
 const MarketFlats = lazy(() => import('./containers/Market/MarketFlatsList/MarketFlatsList'));
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/my-flats" exact component={MyFlats} />
           <Route path="/market/flat/:id" component={MarketFlatDetails} />
           <Route path="/my-flats/flat/:id" component={TraderPropertyDetails} />
+          <Route path="/account" component={Account} />
           <Suspense fallback={<p>Loading...</p>}>
             <Route path="/market" component={MarketFlats} />
           </Suspense>

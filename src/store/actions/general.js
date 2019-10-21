@@ -38,21 +38,27 @@ export const checkAuthTimeout = (expirationTime) => (dispatch) => {
   }, expirationTime * 1000);
 };
 
+const getUserData = (queryParams, userId) => axios.get(`/user/${userId}.json${queryParams}`);
+const postUserData = (token, data, userId) => axios.post(`/user/${userId}.json?auth=${token}`, data);
+const putUserData = (token, data, userId) => axios.put(`/user/${userId}.json?auth=${token}`, data);
+
 const authSuccess = (token, userId) => (dispatch) => {
   dispatch(saveToken(token, userId));
-  const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
-  axios.get(`/user.json${queryParams}`)
-    .then((res) => {
-      const dataKeys = Object.keys(res.data)[0];
-      let servData = {};
-      if (dataKeys) {
-        servData = res.data[Object.keys(res.data)[0]];
-        dispatch(getTraderData(servData));
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const queryParams = `?auth=${token}`;
+
+  async function getData() {
+    const servData = await getUserData(queryParams, userId);
+    return servData;
+  }
+
+  getData().then((res) => {
+    const dataKeys = Object.keys(res.data);
+    if (dataKeys) {
+      dispatch(getTraderData(res.data));
+    }
+  }).catch((err) => {
+    console.log(err);
+  });
 };
 
 export const signUp = (email, password, isRegistered) => (dispatch) => {
@@ -88,12 +94,21 @@ export const endPeriod = (period) => (dispatch) => {
 };
 
 export const saveData = (trader, token, userId) => () => {
+  const queryParams = `?auth=${token}&uid="${userId}"`;
+  async function getData() {
+    const servData = await getUserData(queryParams, userId);
+    return servData;
+  }
   const data = { ...trader, userId };
-  axios.post(`/user.json?auth=${token}`, data)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  getData().then((res) => {
+    if (res) {
+      putUserData(token, data, userId).then((res) => {
+        console.log(res);
+      });
+    } else {
+      postUserData(token, data, userId).then((res) => {
+        console.log(res);
+      });
+    }
+  });
 };

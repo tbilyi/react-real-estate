@@ -10,3 +10,8 @@
     border-radius: .25rem;
     max-width: 100%;
 }
+.details {
+  background-color: #7298a5;
+  text-align: center;
+  color: #f3f1eb;
+}

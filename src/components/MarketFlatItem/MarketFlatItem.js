@@ -37,6 +37,12 @@ const MarketFlatItem = ({
         <div className="card-footer text-muted text-center font-weight-bold">
           {`${GetPriceWithSpaces(price)}$ (${GetPriceWithSpaces(price / square)}$ for m²)`}
         </div>
+        <NavLink
+          className="details"
+          to={`/market/flat/${id}`}
+        >
+          details
+        </NavLink>
       </div>
     </div>
   );

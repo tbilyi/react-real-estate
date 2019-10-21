@@ -7,6 +7,7 @@ export default function SimpleTabs() {
   const [toggleButtonClass, setToggleButtonClass] = useState(['collapse', 'navbar-collapse']);
   const trader = useSelector((state) => state.trader);
   const toggleButtonClassJoin = () => toggleButtonClass.join(' ');
+  const avatar = require('../../../src/assets/images/account.jpg');
 
   const showMobileItems = () => {
     if (toggleButtonClass.length === 2) {
@@ -68,6 +69,14 @@ export default function SimpleTabs() {
           </li>
           <li className="nav-item">
             <span className="nav-link">{`currency: ${GetPriceWithSpaces(trader.fortune)}$`}</span>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              className="nav-link"
+              to="/account"
+            >
+              <img width="30px" alt="" src={avatar} />
+            </NavLink>
           </li>
         </ul>
       </div>
